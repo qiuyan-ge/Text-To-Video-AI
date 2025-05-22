@@ -4,12 +4,16 @@ import json
 import re
 from datetime import datetime
 from utility.utils import log_response,LOG_TYPE_GPT
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 if len(os.environ.get("GROQ_API_KEY")) > 30:
     from groq import Groq
     model = "llama3-70b-8192"
     client = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),
+        api_key=os.getenv("GROQ_API_KEY"),
         )
 else:
     model = "gpt-4o"
@@ -61,6 +65,8 @@ def getVideoSearchQueriesTimed(script,captions_timed):
                 print("content: \n", content, "\n\n")
                 print(e)
                 content = fix_json(content.replace("```json", "").replace("```", ""))
+                import ipdb
+                ipdb.set_trace()
                 out = json.loads(content)
         return out
     except Exception as e:
